@@ -35,7 +35,7 @@ public class Main {
 		
 		window.setContentPane(panel);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(true);
+		window.setResizable(false);
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
@@ -197,16 +197,19 @@ public class Main {
 	
 	private static void insertionSort(int[] data, Graphics g) {
 		int i = 1;
-		while (i < data.length) {
+		complete = false;
+		while (i < MAXDATA) {
 		    int j = i;
 		    while (j > 0 && data[j-1] > data[j]) {
 		    	int temp = data[j];
 		    	data[j] = data[j-1];
 		    	data[j-1] = temp;
 		    	update(data, g, j, j-1, -1);
+		    	complete = false;
 		        j--;
 		    }
 		    i++;
+		    complete = true;
 		    passes++;
 		}
 	}
