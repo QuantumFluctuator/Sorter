@@ -196,7 +196,19 @@ public class Main {
 	}
 	
 	private static void insertionSort(int[] data, Graphics g) {
-		
+		int i = 1;
+		while (i < data.length) {
+		    int j = i;
+		    while (j > 0 && data[j-1] > data[j]) {
+		    	int temp = data[j];
+		    	data[j] = data[j-1];
+		    	data[j-1] = temp;
+		    	update(data, g, j, j-1, -1);
+		        j--;
+		    }
+		    i++;
+		    passes++;
+		}
 	}
 	
 	private static boolean valid(int x) {
