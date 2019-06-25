@@ -59,9 +59,27 @@ public class Main {
 			
 			System.out.println();
 			
+			int input = 0;
+			
 			switch (in) {
 			case 1:
-				initialiseData(data);
+				input = 0;
+				boolean random = false;
+				while (input != 1 && input != 2) {
+					System.out.println("  1 for manual entry\n  2 for random entry\nEnter an option: ");
+					input = sc.nextInt();
+				}
+				switch (input) {
+				case 1:
+					random = false;
+					break;
+				case 2:
+					random = true;
+					break;
+				default:
+					break;
+				}
+				initialiseData(data, random);
 				break;
 			case 2:
 				complete = false;
@@ -81,7 +99,7 @@ public class Main {
 				break;
 			case 9:
 				boolean wantsToLeave = false;
-				int input = 0;
+				input = 0;
 				while (!wantsToLeave) {
 					printOptions();
 					if (sc.hasNextInt()) {
@@ -146,9 +164,18 @@ public class Main {
 		g2d.drawImage(image, 0, 0, null);
 	}
 	
-	private static void initialiseData(int[] data) {
-		for (int i = 0; i < MAXDATA; i++) {
-			data[i] = (int)(Math.random() * DATAHEIGHT);
+	private static void initialiseData(int[] data, boolean random) {
+		if (random) {
+			for (int i = 0; i < MAXDATA; i++) {
+				data[i] = (int)(Math.random() * DATAHEIGHT);
+			}
+		} else {
+			System.out.print("Enter the number of data items: ");
+			MAXDATA = sc.nextInt();
+			for (int i = 0; i < MAXDATA; i++) {
+				System.out.print((i+1) + "/" + MAXDATA + " Enter data item: ");
+				data[i] = sc.nextInt();
+			}
 		}
 	}
 	
@@ -179,7 +206,7 @@ public class Main {
 	    int pivot = data[max];
 	    int i = min;
 	    for (int j = min; j <= max - 1; j++) {
-	    	update(data, g, i, j, -1);
+	    	update(data, g, i-1, j, -1);
 	    	complete = false;
 	        if (data[j] < pivot) {
 	        	int temp = data[i];
@@ -219,7 +246,7 @@ public class Main {
 	}
 	
 	private static void printMenu() {
-		System.out.println("  1 to initialise data randomly\n  2 for Bubble Sort\n  3 for Insertion Sort\n  4 for Quick Sort\n  9 to edit options\n  0 to quit");
+		System.out.println("  1 to initialise data\n  2 for Bubble Sort\n  3 for Insertion Sort\n  4 for Quick Sort\n  9 to edit options\n  0 to quit");
 		System.out.print("Enter an option: ");
 	}
 	
