@@ -1,4 +1,4 @@
-package com.main;
+package sorter;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -95,8 +95,13 @@ public class Main {
 				break;
 			case 4:
 				complete = false;
-				quickSort(data, 0, MAXDATA - 1, g);
+                                quickSort(data, 0, MAXDATA - 1, g);
+                                update(data, g, -1, -1, -1);
 				break;
+                        case 5:
+                                complete = false;
+                                mergeSort(data, g);
+                                break;
 			case 9:
 				boolean wantsToLeave = false;
 				input = 0;
@@ -240,13 +245,59 @@ public class Main {
 		    passes++;
 		}
 	}
+        
+        private static void mergeSort(int[] data, Graphics g) {
+            int size = data.length;
+            if (size < 2) return;
+            
+            int mid = size / 2;
+            
+            int n1 = mid;
+            int n2 = size - mid;
+            
+            int[] data1 = new int[n1];
+            int[] data2 = new int[n2];
+            for (int i = 0; i < mid; i++) {
+                data1[i] = data[i];
+            }
+            for (int i = mid; i < size; i++) {
+                data2[i-mid] = data[i];
+            }
+            
+           mergeSort(data1, g);
+           mergeSort(data2, g);
+           merge(data1, data2, data, g);
+        }
+        
+        private static void merge(int[] data1, int[] data2, int[] data, Graphics g) {
+             int i = 0, j = 0, k = 0;
+            
+            while (i < data1.length && j < data2.length) {
+                if (data1[i] > data2[j]) {
+                    data[k++] = data2[j++];
+                    update(data, g, k-1, -1, -1);
+                } else {
+                    data[k++] = data1[i++];
+                    update(data, g, k-1, -1, -1);
+                }
+            }
+            
+            while (i < data1.length) {
+                data[k++] = data1[i++];
+                update(data, g, k-1, -1, -1);
+            }
+            while (j < data2.length) {
+                data[k++] = data2[j++];
+                update(data, g, k-1, -1, -1);
+            }
+        }
 	
 	private static boolean valid(int x) {
-		return x == 0 || x == 1 || x == 2 || x == 3 || x == 4 || x == 9;
+		return x == 0 || x == 1 || x == 2 || x == 3 || x == 4 || x == 5 || x == 9;
 	}
 	
 	private static void printMenu() {
-		System.out.println("  1 to initialise data\n  2 for Bubble Sort\n  3 for Insertion Sort\n  4 for Quick Sort\n  9 to edit options\n  0 to quit");
+		System.out.println("  1 to initialise data\n  2 for Bubble Sort\n  3 for Insertion Sort\n  4 for Quick Sort\n  5 for Merge Sort\n  9 to edit options\n  0 to quit");
 		System.out.print("Enter an option: ");
 	}
 	
